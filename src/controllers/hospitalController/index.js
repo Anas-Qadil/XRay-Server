@@ -64,14 +64,14 @@ const getHospitalPatients = async (req, res) => {
     const data = await traitementModel.find({}).populate("patient").populate("service");
     let result =[]
     data.map((doc) => {
-      if (doc.service.hospital == id) {
+      if (doc.service?.hospital && doc.service?.hospital == id) {
         result.push(doc)
       }
     });
     let final = [];
     result.map((doc) => {
       patients.map((patient) => {
-        if (String(doc.patient._id) == String(patient._id)) {
+        if (String(doc?.patient?._id) == String(patient._id)) {
           if (!final.includes(patient)) {
             final.push(patient)
           }
