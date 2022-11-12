@@ -157,9 +157,11 @@ const graphData = async (req, res) => {
   try {
     let data = [];
     const user = req.user;
+
     const { type } = req.query; // if we send user type and id 
+    console.log(type);
     let traitements = [];
-    if (type && Object.keys(type).length !== 0) {
+    if (type && Object.keys(type).length !== 0 && type != undefined && type != null) {
       const parsedType = JSON.parse(type);
       if (parsedType.role === "patient")
         traitements = await traitementModel.find({ patient: parsedType.id }, { dose: 1, createdAt: 1 });
