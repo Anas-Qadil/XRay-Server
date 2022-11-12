@@ -85,6 +85,8 @@ const getUltimateStatistics = async (req, res) => {
     const user = req.user;
     let stats = req.body.stats;
 
+    console.log(stats);
+
     let data = [];
 
     let traitements = [];
