@@ -83,7 +83,10 @@ const getAllTraitements = async (req, res) => {
 const getUltimateStatistics = async (req, res) => {
   try {
     const user = req.user;
-    const stats = JSON.parse(req.query.stats);
+    let stats;
+    if (req.query?.stats)
+      stats = JSON.parse(req.query.stats);
+
     let data = [];
 
     let traitements = [];
