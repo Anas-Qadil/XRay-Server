@@ -162,7 +162,7 @@ const graphData = async (req, res) => {
     console.log(type);
     let traitements = [];
     if (type && Object.keys(type).length !== 0 && type != undefined && type != null) {
-      const parsedType = JSON.parse(type);
+      const parsedType = type;
       if (parsedType.role === "patient")
         traitements = await traitementModel.find({ patient: parsedType.id }, { dose: 1, createdAt: 1 });
       else if (parsedType.role === "person")
