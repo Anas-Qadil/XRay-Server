@@ -158,7 +158,7 @@ const graphData = async (req, res) => {
     let data = [];
     const user = req.user;
 
-    const { type } = req.query; // if we send user type and id 
+    const { type } = req.body; // if we send user type and id 
     console.log(type);
     let traitements = [];
     if (type && Object.keys(type).length !== 0 && type != undefined && type != null) {

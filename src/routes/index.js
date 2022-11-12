@@ -165,6 +165,7 @@ router.get("/search/company", searchCompany);
 router.get("/search/service", searchService);
 router.get("/search/patient", searchPatient);
 router.get("/graph", authenticateMiddleware, graphData);
+router.post("/graph", authenticateMiddleware, graphData);
 
 {/* -------------------------------------------------- End Search --------------------------------------------------*/}
 
