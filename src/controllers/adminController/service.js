@@ -85,7 +85,10 @@ const getUltimateStatistics = async (req, res) => {
     const user = req.user;
     let stats;
     if (req.query?.stats)
+    {
+      console.log(req.query.stats);
       stats = JSON.parse(req.query.stats);
+    }
 
     let data = [];
 
