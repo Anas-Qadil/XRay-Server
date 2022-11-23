@@ -157,12 +157,10 @@ const graphData = async (req, res) => {
   try {
     let data = [];
     const user = req.user;
-
-    const { type } = req.body; // if we send user type and id 
-    console.log(type);
+    const { type } = req.query; // if we send user type and id 
     let traitements = [];
-    if (type && Object.keys(type).length !== 0 && type != undefined && type != null) {
-      const parsedType = type;
+    if (type && Object.keys(type).length !== 0) {
+      const parsedType = JSON.parse(type);
       if (parsedType.role === "patient")
         traitements = await traitementModel.find({ patient: parsedType.id }, { dose: 1, createdAt: 1 });
       else if (parsedType.role === "person")
@@ -283,7 +281,6 @@ const graphData = async (req, res) => {
     const traitementOver18aYearArray = await Promise.all(traitementOver18aYear);
     const traitementOver18aYearArrayFiltered = traitementOver18aYearArray.filter(item => item !== undefined);
 
-    
     res.status(200).json({
       message: "success",
       data: all,

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
-const hospitalSchema = new schema({
+const radioSchema = new schema({
 	region: {
 		type: String,
     trim: true,
@@ -11,6 +11,10 @@ const hospitalSchema = new schema({
 		type: String,
     trim: true,
 		required: true,
+	},
+	address: {
+		type: String,
+		trim: true,
 	},
 	statut: {
 		type: String,
@@ -22,16 +26,6 @@ const hospitalSchema = new schema({
     trim: true,
 		required: true,
 	},
-	address: {
-		type: String,
-		trim: true,
-	},
-	type: {
-		type: String,
-		trim: true,
-		enum: ["radio", "hospital", "clinic"],
-		default: "hospital",
-	},
 	phone: {
 		type: String,
     trim: true,
@@ -42,6 +36,6 @@ const hospitalSchema = new schema({
 	},
 }, { timestamps: true });
 
-const hospitalModel = mongoose.model("hospitalModel", hospitalSchema);
+const radioModel = mongoose.model("radioModel", radioSchema);
 
-module.exports = hospitalModel;
+module.exports = radioModel;

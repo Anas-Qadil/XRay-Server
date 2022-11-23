@@ -15,7 +15,6 @@ const getHospitals = async (req, res) => {
       hospitals = await hospitalModel.find({
         $or: [
           { region: { $regex: search, $options: "i" } },
-          { name: { $regex: search, $options: "i" } },
           { ville: { $regex: search, $options: "i" } },
           { designation: { $regex: search, $options: "i" } },
           { phone: { $regex: search, $options: "i" } },
@@ -364,16 +363,14 @@ const getAllSearchServices = async (req, res) => {
       ],
     })
       .populate("hospital");
-    // console.log(services);
     const hospitals = await hospitalModel.find({
       $or: [
-        {name: {$regex: hospitalSearch, $options: "i"}},
-        {region: {$regex: hospitalSearch, $options: "i"}},
-        {ville: {$regex: hospitalSearch, $options: "i"}},
-        {statut: {$regex: hospitalSearch, $options: "i"}},
         {designation: {$regex: hospitalSearch, $options: "i"}},
-        {phone: {$regex: hospitalSearch, $options: "i"}},
-        {email: {$regex: hospitalSearch, $options: "i"}},
+        {region: {$regex: hospitalSearch, $options: "i"}},
+        // {ville: {$regex: hospitalSearch, $options: "i"}},
+        // {statut: {$regex: hospitalSearch, $options: "i"}},
+        // {phone: {$regex: hospitalSearch, $options: "i"}},
+        // {email: {$regex: hospitalSearch, $options: "i"}},
       ],
     });
 

@@ -83,10 +83,7 @@ const getAllTraitements = async (req, res) => {
 const getUltimateStatistics = async (req, res) => {
   try {
     const user = req.user;
-    let stats = req.body.stats;
-
-    console.log(stats);
-
+    const stats =  req.body.stats;
     let data = [];
 
     let traitements = [];
@@ -117,10 +114,12 @@ const getUltimateStatistics = async (req, res) => {
           populate: {
             path: 'hospital',
           },
-        }).populate({
+        })
+        .populate({
           path: 'person',
           populate: {
             path: 'hospital',
+            path: 'company',
           },
         });
     } else {
@@ -137,6 +136,7 @@ const getUltimateStatistics = async (req, res) => {
         },
       })
       .populate('patient');
+
       person_traitement = await person_traitementModel.find({
         createdAt: {
           $gte: moment(stats.startDate, "YYYY-MM-DD").toISOString(),
@@ -151,13 +151,32 @@ const getUltimateStatistics = async (req, res) => {
         }).populate({
           path: 'person',
           populate: {
+            path: 'company',
+          },
+        })
+        .populate({
+          path: 'person',
+          populate: {
             path: 'hospital',
           },
         });
     }
 
-    const combined = [...traitements, ...person_traitement];
+    let combined = [...traitements, ...person_traitement];
+
+
+    if (stats.hospitalType) {
+      combined = combined.filter((doc) => {
+        return doc?.service?.hospital?.type === stats?.hospitalType;
+      });
+    }
+
     combined.map((doc) => {
+      if (stats.company) {
+        if (doc?.person?.company?._id.toString() === stats.company) {
+          data.push(doc);
+        }
+      }
       if (stats?.hospital) {
         if (doc?.service?.hospital?._id == stats?.hospital) {
           if (stats?.region) {
@@ -191,7 +210,7 @@ const getUltimateStatistics = async (req, res) => {
     let result = [];
     if (user.role === "company") {
       data2.map((doc) => {
-        if (doc?.person?.company?.toString() == user?.company?.toString()) {
+        if (doc?.person?.company?._id.toString() == user?.company?.toString()) {
           result.push(doc);
         }
       });
@@ -202,10 +221,8 @@ const getUltimateStatistics = async (req, res) => {
         }
       });
     } else result = data2;
-
     res.send({ data: result });
   } catch (e) {
-    console.log(e);
     res.status(500).json({ message: e.message });
   }
 }

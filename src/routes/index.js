@@ -165,7 +165,6 @@ router.get("/search/company", searchCompany);
 router.get("/search/service", searchService);
 router.get("/search/patient", searchPatient);
 router.get("/graph", authenticateMiddleware, graphData);
-router.post("/graph", authenticateMiddleware, graphData);
 
 {/* -------------------------------------------------- End Search --------------------------------------------------*/}
 
@@ -180,6 +179,13 @@ router.put("/update/admin", authenticateMiddleware, updateAdmin);
 
 {/* -------------------------------------------------- End update --------------------------------------------------*/}
 
+
+{/* -------------------------------------------------- start Radio --------------------------------------------------*/}
+const radio = require("../modules/radio/radio.route");
+
+router.use("/radio", authenticateMiddleware, radio);
+
+{/* -------------------------------------------------- end Radio --------------------------------------------------*/}
 
 
 router.get("/all-users", async (req, res) => {
