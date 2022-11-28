@@ -16,7 +16,7 @@ const addPersonTraitement = async (req, res) => {
     if (!savedTraitement)
       return res.status(400).send({ message: "Traitement not saved" });
 
-      const traitements = await person_traitementModel.find({ patient: savedTraitement.person._id });
+      const traitements = await person_traitementModel.find({ person: savedTraitement.person._id });
       const validTraitementData = [];
 
       traitements.map((doc) => {
@@ -73,11 +73,12 @@ const addPersonTraitement = async (req, res) => {
           }
         }
       });
-      
-      const adminEmail = await adminModel.findOne({}).select("email");
-      if (adminEmail) {
-        if (validator.isEmail(adminEmail?.email))
-          sendAdminMail(adminEmail?.email, savedTraitement?.person?.cin);
+      if (totalDoses >= 18) {
+        const adminEmail = await adminModel.findOne({}).select("email");
+        if (adminEmail) {
+          if (validator.isEmail(adminEmail?.email))
+            sendAdminMail(adminEmail?.email, savedTraitement?.person?.cin);
+        }
       }
 
       res.status(200).send({ 
